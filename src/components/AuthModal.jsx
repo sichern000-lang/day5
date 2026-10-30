@@ -47,10 +47,10 @@ export default function AuthModal({ onClose }) {
           required
         />
         {msg && <p className="msg">{msg}</p>}
-        <button className="primary" disabled={busy}>
+        <button className="pill solid wide" disabled={busy}>
           {mode === 'login' ? '로그인' : '가입하기'}
         </button>
-        <button type="button" className="link" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}>
+        <button type="button" className="text-btn" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}>
           {mode === 'login' ? '계정이 없으신가요? 회원가입' : '이미 계정이 있어요. 로그인'}
         </button>
       </form>

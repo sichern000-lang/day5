@@ -264,3 +264,26 @@ insert into public.products (name, description, category, emoji, unit, price, st
   ('오메기떡',         '찰진 제주 전통 떡. 팥고물이 듬뿍.',                          '간식', '🍡', '10개입',     18000, 100),
   ('제주 녹차 티백',   '제주 햇차로 만든 향긋한 녹차 티백.',                         '차',   '🍵', '20개입',     12000, 150)
 on conflict (name) do nothing;
+
+-- ───────────── 10. 후기 이미지 첨부 (Storage) ─────────────
+alter table public.reviews add column if not exists image_url text;
+
+insert into storage.buckets (id, name, public)
+values ('review-images', 'review-images', true)
+on conflict (id) do nothing;
+
+drop policy if exists "review_images_read" on storage.objects;
+drop policy if exists "review_images_insert" on storage.objects;
+drop policy if exists "review_images_delete" on storage.objects;
+create policy "review_images_read" on storage.objects for select
+  using (bucket_id = 'review-images');
+create policy "review_images_insert" on storage.objects for insert to authenticated
+  with check (bucket_id = 'review-images' and (storage.foldername(name))[1] = auth.uid()::text);
+create policy "review_images_delete" on storage.objects for delete to authenticated
+  using (bucket_id = 'review-images' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- ───────────── 11. 프로필 보정 (트리거 적용 전에 가입한 계정용) ─────────────
+insert into public.profiles (id, name)
+select id, coalesce(nullif(raw_user_meta_data->>'name', ''), split_part(email, '@', 1))
+from auth.users
+on conflict (id) do nothing;

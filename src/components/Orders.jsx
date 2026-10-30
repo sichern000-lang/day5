@@ -21,7 +21,7 @@ export default function Orders({ onNeedLogin, notify }) {
   if (!user) {
     return (
       <p className="empty">
-        로그인 후 이용해 주세요. <button onClick={onNeedLogin}>로그인</button>
+        로그인 후 이용해 주세요. <button className="pill solid" onClick={onNeedLogin}>Log in</button>
       </p>
     )
   }
@@ -34,11 +34,14 @@ export default function Orders({ onNeedLogin, notify }) {
   }
 
   return (
-    <section className="list">
-      <h2>주문내역</h2>
+    <section className="section">
+      <p className="label">Orders</p>
+      <h2>
+        Your <em>orders.</em>
+      </h2>
       {orders.length === 0 && <p className="empty">주문 내역이 없습니다.</p>}
       {orders.map((o) => (
-        <div className="order" key={o.id}>
+        <div className="order panel" key={o.id}>
           <div className="row between">
             <small>{dateText(o.created_at)}</small>
             <span className={o.status === 'returned' ? 'badge off' : 'badge'}>
@@ -47,7 +50,7 @@ export default function Orders({ onNeedLogin, notify }) {
           </div>
           {o.order_items.map((i) => (
             <div className="line" key={i.id}>
-              <span className="emoji sm">{i.products.emoji}</span>
+              <span className="thumb">{i.products.emoji}</span>
               <div className="grow">
                 <b>{i.products.name}</b>
                 <small>
@@ -59,7 +62,7 @@ export default function Orders({ onNeedLogin, notify }) {
           ))}
           <div className="total">
             <span>총 {won(o.total_price)}</span>
-            {o.status === 'paid' && <button onClick={() => giveBack(o.id)}>반환</button>}
+            {o.status === 'paid' && <button className="pill" onClick={() => giveBack(o.id)}>반환</button>}
           </div>
         </div>
       ))}
