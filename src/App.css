@@ -56,12 +56,22 @@
 }
 .hero-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; }
 .rating-card {
-  position: absolute; left: 24px; bottom: 24px; width: 220px; padding: 18px 20px 20px; background: #fff; border-radius: 24px;
-  display: flex; flex-direction: column; gap: 6px;
+  position: absolute; left: 24px; right: 24px; bottom: 24px; padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: 999px; display: flex; flex-direction: row; align-items: center; gap: 14px;
 }
 .chip { align-self: flex-start; font-size: 11px; padding: 1px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); }
 .rating-card b { font-size: 44px; font-weight: 400; color: var(--accent); line-height: 1.1; margin-top: 6px; }
 .rating-card small { line-height: 1.4; }
+.ticker-item { flex: 1; min-width: 0; display: flex; flex-direction: row; align-items: center; gap: 12px; animation: ticker-in 0.5s ease; }
+.ticker-item p { flex: 1; min-width: 0; font-size: 14px; line-height: 1.4; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ticker-item small { flex: none; white-space: nowrap; }
+.rating-card .chip { flex: none; white-space: nowrap; background: rgba(255, 255, 255, 0.6); }
+.dots { flex: none; display: flex; gap: 5px; }
+.dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(61, 43, 37, 0.25); transition: 0.3s; }
+.dots span.on { width: 16px; border-radius: 999px; background: var(--accent); }
+@keyframes ticker-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ticker-item { animation: none; } }
 
 /* ───── chips / grid / cards ───── */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -191,7 +201,9 @@
   .hero-text { padding: 24px 0 32px; gap: 18px; }
   .hero-foot { display: none; }
   .hero-visual { min-height: 340px; border-radius: 24px; }
-  .rating-card { left: 14px; bottom: 14px; width: 170px; padding: 12px; }
+  .rating-card { left: 14px; right: 14px; bottom: 14px; padding: 12px 16px; border-radius: 22px; flex-wrap: wrap; gap: 6px 10px; }
+  .ticker-item { flex-basis: 100%; flex-wrap: wrap; gap: 4px 8px; }
+  .ticker-item p { flex-basis: 100%; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; order: 3; }
   .rating-card b { font-size: 32px; }
   .stats { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .stat { padding: 20px 16px; }

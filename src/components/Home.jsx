@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useShop } from '../ShopContext'
 import ProductCard from './ProductCard'
 import { ArrowIcon } from './Icons'
+import ReviewTicker from './ReviewTicker'
 
 export default function Home() {
   const { products, stats } = useShop()
@@ -27,13 +28,7 @@ export default function Home() {
         </div>
         <div className="hero-visual">
           <img src="/hero.png" alt="제주 감귤이 담긴 바구니와 촛불" />
-          <div className="rating-card">
-            <span className="chip">AVG Ratings</span>
-            <b>{stats.count ? stats.avg.toFixed(1) : '-'}</b>
-            <small>
-              {stats.count ? `${stats.count}개의 고객 리뷰 평균` : '첫 리뷰를 기다리고 있어요'}
-            </small>
-          </div>
+          <ReviewTicker />
         </div>
       </section>
 
